@@ -191,6 +191,90 @@ dialog::backdrop { background: rgba(0,0,0,0.8); }
   position: relative;
 }
 
+/* Facts section styles */
+.facts-section {
+  margin: 24px 0;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(253, 224, 71, 0.3);
+  box-shadow: 0 0 20px rgba(253, 224, 71, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+.facts-section h4 {
+  margin: 0 0 8px 0;
+  color: #fde047;
+  font-size: 18px;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(253, 224, 71, 0.3);
+}
+
+.facts-subtitle {
+  margin: 0 0 16px 0;
+  color: #9ca3af;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.facts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fact-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fact-item:nth-child(1) { animation-delay: 0.1s; }
+.fact-item:nth-child(2) { animation-delay: 0.2s; }
+.fact-item:nth-child(3) { animation-delay: 0.3s; }
+
+.fact-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(253, 224, 71, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.fact-keyword {
+  color: #7cc7ff;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fact-text {
+  color: #e8eaed;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.fact-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.fact-number {
+  color: #6b7280;
+  font-size: 12px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
 .completed-image {
   margin-bottom: 24px;
 }
@@ -307,6 +391,17 @@ dialog::backdrop { background: rgba(0,0,0,0.8); }
   }
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .grid-select {
   display: inline-flex;
   align-items: center;
@@ -336,6 +431,15 @@ dialog::backdrop { background: rgba(0,0,0,0.8); }
   .stats {
     flex-direction: column;
     gap: 8px;
+  }
+  
+  .facts-section {
+    padding: 16px;
+    margin: 16px 0;
+  }
+  
+  .fact-item {
+    padding: 12px;
   }
 }
 

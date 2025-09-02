@@ -7,6 +7,86 @@
   
   const playerName = getPlayerName();
   
+  // Fairtrade facts data
+  const FAIRTRADE_FACTS = [
+    {
+      "keyword": "Fairtrade",
+      "fact": "Fairtrade is about better prices, decent working conditions, local sustainability, and fair terms of trade for farmers and workers around the world, but particularly in lower income countries."
+    },
+    {
+      "keyword": "Twenty",
+      "fact": "Fairtrade Africa is celebrating 20 years of driving Impact through trade."
+    },
+    {
+      "keyword": "Vision",
+      "fact": "A world in which all producers can enjoy secure and sustainable livelihoods, fulfill their potential and decide on their future."
+    },
+    {
+      "keyword": "Mission",
+      "fact": "FTA's Mission: Transformative, Resilient & Impactful."
+    },
+    {
+      "keyword": "Organizations",
+      "fact": "Then & Now: Fairtrade Africa's network of Certified POs has grown by 75% over the last decade, from 404 in 2013 to 701 in 2023. *POs-Producer Organizations."
+    },
+    {
+      "keyword": "Farmers, Workers",
+      "fact": "Growing Stronger Together: The number of farmers and workers benefiting from Fairtrade Africa has increased by over 50%, now supporting over 1.4 million people!"
+    },
+    {
+      "keyword": "Premium",
+      "fact": "The Fairtrade Premium is an extra sum of money farmers and workers can invest in community, environmental or business projects of their choice."
+    },
+    {
+      "keyword": "Future",
+      "fact": "Investing in the Future: The Fairtrade Premiums earned by producers have more than quadrupled over the last decade, from €21.3M in 2013 to €90.2M in 2024!"
+    },
+    {
+      "keyword": "Community",
+      "fact": "Feeding Communities: Fairtrade invests nearly 50% of its premiums into programs that help achieve Zero Hunger for everyone."
+    },
+    {
+      "keyword": "Projects",
+      "fact": "Building a Brighter Future: A remarkable 19% of premiums are used to create projects that help end poverty and improve livelihoods."
+    },
+    {
+      "keyword": "Jobs",
+      "fact": "Great Jobs: Hired labor organizations proudly use 33% of their premiums to create Decent Work and boost economic growth!"
+    },
+    {
+      "keyword": "Knowledge",
+      "fact": "Investing in Knowledge: They are helping build a brighter future by dedicating 32% of their funds to provide Quality Education for their communities."
+    },
+    {
+      "keyword": "Zero Hunger",
+      "fact": "Food for All: For small-scale farmers, Zero Hunger is a top goal! They invest 62% of their premiums in projects that put food on the table."
+    },
+    {
+      "keyword": "Investment",
+      "fact": "Investing in Farms: Small Producer Organizations prioritize their operations, using 41% of their premium for Production costs like equipment, farm inputs, and infrastructure."
+    },
+    {
+      "keyword": "Social",
+      "fact": "Community First: Hired Labor organizations invest a massive 70% of their premiums directly into Social Investments, such as housing, health facilities, and schools."
+    },
+    {
+      "keyword": "Benefits",
+      "fact": "Direct Benefits: HL organizations ensure workers see a direct impact, using 16% of premiums for Financial Benefits like bonuses and pensions."
+    },
+    {
+      "keyword": "Empower",
+      "fact": "Empowering Workers: About 9% of the premium is used for Training and Empowerment of Workers, building skills for a better future by HL organizations."
+    },
+    {
+      "keyword": "Members",
+      "fact": "Financial Benefits: SPOs dedicate a significant portion to their members, with 21% of the premium going directly to Financial Benefits. *SPOs-Small Producer Organizations."
+    },
+    {
+      "keyword": "Growth",
+      "fact": "Growing the Business: About 18% of the premium is used by SPOs for Business & Organizational Development, helping them improve their operations and become more competitive."
+    }
+  ];
+
   // EDIT THIS LIST to match files in images/pictures/
   const IMAGES = [
     "images/pictures/1.jpg",
@@ -264,6 +344,60 @@
     }
   }
 
+  function getRandomFacts(count = 3) {
+    const shuffled = [...FAIRTRADE_FACTS].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  function getPerformanceBasedFacts(score, moves) {
+    let facts = [];
+    
+    // Add a congratulatory message based on performance
+    if (score >= 150) {
+      facts.push({
+        keyword: "Excellent Performance!",
+        fact: "You solved the puzzle with great efficiency! Just like Fairtrade producers who work efficiently to create sustainable livelihoods."
+      });
+    } else if (score >= 100) {
+      facts.push({
+        keyword: "Good Job!",
+        fact: "Well done! Your persistence in solving the puzzle mirrors the determination of Fairtrade farmers and workers."
+      });
+    } else {
+      facts.push({
+        keyword: "Keep Going!",
+        fact: "Every attempt makes you better! Fairtrade producers also learn and improve through continuous effort and community support."
+      });
+    }
+    
+    // Add 2 random Fairtrade facts
+    const randomFacts = getRandomFacts(2);
+    facts = facts.concat(randomFacts);
+    
+    return facts;
+  }
+
+  function displayFacts() {
+    const factsContainer = document.getElementById('factsContainer');
+    if (!factsContainer) return;
+    
+    const facts = getPerformanceBasedFacts(score, moves);
+    factsContainer.innerHTML = '';
+    
+    facts.forEach((fact, index) => {
+      const factElement = document.createElement('div');
+      factElement.className = 'fact-item';
+      factElement.innerHTML = `
+        <div class="fact-keyword">${fact.keyword}</div>
+        <div class="fact-text">${fact.fact}</div>
+        <div class="fact-footer">
+          <span class="fact-number">${index + 1} of ${facts.length}</span>
+        </div>
+      `;
+      factsContainer.appendChild(factElement);
+    });
+  }
+
   function showResultsScreen() {
     // Set the completed image
     completedImg.src = imageURL;
@@ -276,6 +410,9 @@
     
     // Create confetti
     createConfetti();
+    
+    // Display facts
+    displayFacts();
     
     // Save score to database
     saveScore();
@@ -341,4 +478,6 @@
   if (cssBoard.endsWith('px')) BOARD_SIZE = parseFloat(cssBoard);
   setGridCSS(GRID);
   buildBoard();
+  
+
 })();
