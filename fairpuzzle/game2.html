@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fair Puzzle - Start Screen</title>
+  <link rel="stylesheet" href="ws.css?v=1" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="toolbar">
+      <button id="newBtn" title="New Puzzle">🔀 New</button>
+      <button id="eyeBtn" title="Show Original">👁️ Guide</button>
+
+      <div class="grid-select">
+        <label for="sizeSel">Grid:</label>
+        <select id="sizeSel" title="Grid size">
+          <option value="3">3×3 (easy)</option>
+          <option value="4" selected>4×4</option>
+          <option value="5">5×5</option>
+          <option value="6">6×6</option>
+        </select>
+      </div>
+
+      <div class="stats">
+        <span id="moves">Moves: 0</span>
+        <span id="time">Time: 00:00</span>
+      </div>
+    </div>
+
+    <div class="board" id="board" aria-label="Tile puzzle board"></div>
+    <div class="message" id="msg">🎉 Completed! <span class="credit" id="finalStats" style="display:block;margin-top:6px;"></span></div>
+  
+  </div>
+
+  <dialog id="guideDlg" aria-label="Original image">
+    <div class="dlg-head">
+      <h3>Original Image</h3>
+      <button id="closeDlg" title="Close">✖</button>
+    </div>
+    <div class="dlg-body">
+      <img id="guideImg" alt="Original puzzle image" />
+    </div>
+  </dialog>
+
+  <script src="game.js"></script>
+</body>
+</html>

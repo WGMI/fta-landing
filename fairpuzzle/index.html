@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fair Puzzle - Start Screen</title>
+  <link rel="stylesheet" href="ws.css?v=1" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="start-screen">
+      <!-- FTA 20 Logo -->
+      <div class="logo">
+        <img src="images/name.png" alt="FTA 20" style="width: 180px; height: auto; margin-top: 50px;">
+      </div>
+      
+      <!-- Decorative elements -->
+      <div class="decorative-elements">
+        <div class="star star-orange"></div>
+        <div class="star star-blue"></div>
+        <div class="star star-dark-blue"></div>
+        <div class="star star-pink"></div>
+        <div class="star star-light-blue"></div>
+        <div class="star star-light-green"></div>
+        <div class="star star-teal"></div>
+        <div class="star star-dark-green"></div>
+      </div>
+    
+      <!-- Info section -->
+      <div class="info-section">
+        <div class="info-icon">ⓘ</div>
+        <p class="info-text">Find the full picture</p>
+        <p class="info-text">Swipe to move tiles</p>
+      </div>
+      
+      <!-- Producers button -->
+      <!-- <div class="producers-section">
+        <div class="nav-arrow">←</div>
+        <button class="producers-btn">PRODUCERS</button>
+      </div> -->
+      
+      <!-- Tap indicator -->
+      <div class="tap-indicator">
+        <div class="hand-icon">👆</div>
+      </div>
+      
+      <!-- Back button -->
+      <div class="back-section">
+        <a href="../index.html" class="back-btn">← Back to Games</a>
+        <a href="../leaderboard.html" class="back-btn leaderboard-btn">🏆 Leaderboard</a>
+      </div>
+      
+      <!-- Name and Start buttons -->
+      <div class="action-buttons">
+        <input type="text" class="action-btn name-btn" placeholder="Name">
+        <button class="action-btn start-btn" onclick="startGame()">START</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function startGame() {
+      const nameInput = document.querySelector('.name-btn');
+      const playerName = nameInput.value.trim();
+      
+      if (playerName === '') {
+        alert('Please enter your name before starting the game!');
+        nameInput.focus();
+        return;
+      }
+      
+      // Pass the name through URL parameters
+      window.location.href = `game.html?name=${encodeURIComponent(playerName)}`;
+    }
+    
+    // Allow Enter key to start the game
+    document.querySelector('.name-btn').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        startGame();
+      }
+    });
+  </script>
+</body>
+</html>
