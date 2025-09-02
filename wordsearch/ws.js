@@ -426,7 +426,13 @@
       }
     });
     
-    return facts;
+    // Return only one random fact instead of all facts
+    if (facts.length > 0) {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      return [facts[randomIndex]];
+    }
+    
+    return [];
   }
   
   function displayFacts() {
@@ -447,6 +453,18 @@
     
     factsContainer.innerHTML = '';
     
+    // Since we now only show one fact, update the section title and subtitle if they exist
+    const factsTitle = factsSection.querySelector('h3, h4');
+    const factsSubtitle = factsSection.querySelector('.facts-subtitle');
+    
+    if (factsTitle) {
+      factsTitle.textContent = facts.length === 1 ? '🎯 Word Found & Fact' : '🎯 Words Found & Facts';
+    }
+    
+    if (factsSubtitle) {
+      factsSubtitle.textContent = facts.length === 1 ? 'Learn about a word you found!' : 'Learn about the words you found!';
+    }
+    
     facts.forEach((fact, index) => {
       const factElement = document.createElement('div');
       factElement.className = 'fact-item';
@@ -458,6 +476,58 @@
     });
     
     factsSection.style.display = 'block';
+    
+    // Also update the live facts display if it exists
+    updateLiveFactsDisplay(facts);
+  }
+  
+  function updateLiveFactsDisplay(facts) {
+    // Create or update a live facts display that shows facts as they're found
+    let liveFactsEl = document.getElementById('liveFacts');
+    
+    if (!liveFactsEl) {
+      liveFactsEl = document.createElement('div');
+      liveFactsEl.id = 'liveFacts';
+      liveFactsEl.className = 'live-facts';
+      liveFactsEl.innerHTML = `
+        <h4>🎯 Word Found & Fact</h4>
+        <div class="live-facts-container"></div>
+      `;
+      
+      // Insert after the words section
+      const wordsSection = document.querySelector('.words');
+      if (wordsSection) {
+        wordsSection.parentNode.insertBefore(liveFactsEl, wordsSection.nextSibling);
+      }
+    }
+    
+    const liveFactsContainer = liveFactsEl.querySelector('.live-facts-container');
+    if (liveFactsContainer) {
+      liveFactsContainer.innerHTML = '';
+      
+      // Since we now only show one fact, update the title accordingly
+      const titleEl = liveFactsEl.querySelector('h4');
+      if (titleEl) {
+        titleEl.textContent = facts.length === 1 ? '🎯 Word Found & Fact' : '🎯 Words Found & Facts';
+      }
+      
+      facts.forEach((fact, index) => {
+        const factElement = document.createElement('div');
+        factElement.className = 'live-fact-item';
+        factElement.innerHTML = `
+          <div class="live-fact-keyword">${fact.keyword}</div>
+          <div class="live-fact-text">${fact.fact}</div>
+        `;
+        liveFactsContainer.appendChild(factElement);
+      });
+    }
+    
+    // Show the live facts display if there are facts, hide if empty
+    if (facts.length > 0) {
+      liveFactsEl.style.display = 'block';
+    } else {
+      liveFactsEl.style.display = 'none';
+    }
   }
 
   function endGame(won){
@@ -473,15 +543,10 @@
     if (won) {
       const score = calculateScore();
       saveScore(score);
-      // Display facts for found words
-      displayFacts();
-    } else {
-      // Hide facts section if player didn't win
-      const factsSection = document.getElementById('factsSection');
-      if (factsSection) {
-        factsSection.style.display = 'none';
-      }
     }
+    
+    // Always display facts for found words, regardless of winning status
+    displayFacts();
     
     overlayTitle.textContent = won ? 'You found them all! 🎉' : "Time's up!";
     overlayMsg.textContent = won
@@ -561,6 +626,12 @@
     const factsSection = document.getElementById('factsSection');
     if (factsSection) {
       factsSection.style.display = 'none';
+    }
+    
+    // Hide live facts display for new game
+    const liveFactsEl = document.getElementById('liveFacts');
+    if (liveFactsEl) {
+      liveFactsEl.style.display = 'none';
     }
 
     // Pick words, build puzzle
