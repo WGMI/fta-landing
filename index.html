@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fairtrade Games - FTA 20</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <img src="images/Main Icon@300x.png" alt="Fairtrade Logo" class="logo-image">
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="welcome-section">
+                <h1 class="welcome-text">
+                    <span class="welcome-prefix">Welcome to the</span>
+                    <span class="welcome-title">Fairtrade Games!</span>
+                </h1>
+                <div class="intro-text">
+                    <div class="info-icon">i</div>
+                    <p style="text-align: center;">Choose your challenge and have fun while learning about Fairtrade Africa's mission and impact.</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Game Options Section -->
+        <main class="game-options">
+            <div class="game-option" id="fair-hunt">
+                <div class="game-header">
+                    <div class="">
+                        <img src="images/OP2@300x.png" alt="Fair Hunt" class="button-image">
+                    </div>
+                    <div class="game-icon">
+                        <img src="images/OP1@300x.png" alt="Magnifying Glass" class="icon-image">
+                    </div>
+                </div>
+                <div class="game-description">
+                    <p>Test your word-finding skills! Discover hidden keywords from our mission and unlock facts about Fairtrade Africa. Beat the clock and climb the leaderboards!</p>
+                </div>
+            </div>
+
+            <div class="game-option" id="fair-puzzle">
+                <div class="game-header">
+                    <div class="game-icon">
+                        <img src="images/OP2@300x.png" alt="Puzzle Pieces" class="icon-image">
+                    </div>
+                    <div class="">
+                        <img src="images/OP1@300x.png" alt="Fair Puzzle" class="button-image">
+                    </div>
+                </div>
+                <div class="game-description">
+                    <p>Piece together a beautiful image! As you connect the puzzle pieces, you'll earn points and reveal facts about our work. Can you complete the puzzle before time runs out?</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Icons -->
+        <footer class="footer-icons">
+            <div class="icon-item">
+                <img src="images/OP1.1@300x.png" alt="Empowerment" class="footer-icon">
+            </div>
+            <div class="icon-item">
+                <img src="images/OP2.2@300x.png" alt="Banana" class="footer-icon">
+            </div>
+            <div class="icon-item">
+                <img src="images/OP1.1@300x.png" alt="Biodiversity" class="footer-icon">
+            </div>
+            <div class="icon-item">
+                <img src="images/OP2.2@300x.png" alt="Coffee" class="footer-icon">
+            </div>
+            <div class="icon-item">
+                <img src="images/OP1.1@300x.png" alt="Certification" class="footer-icon">
+            </div>
+            <div class="icon-item">
+                <img src="images/OP2.2@300x.png" alt="Agriculture" class="footer-icon">
+            </div>
+        </footer>
+        
+        <!-- Leaderboard Button -->
+        <div class="leaderboard-section">
+            <a href="leaderboard.html" class="leaderboard-btn">
+                🏆 View Leaderboard
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
