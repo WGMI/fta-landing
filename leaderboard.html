@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Fairtrade Games</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .leaderboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1a2a3a, #2d4a6b);
+            color: white;
+            border: 2px solid #32cd32;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #32cd32, #28a745);
+            transform: scale(1.05);
+        }
+        
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(50, 205, 50, 0.3);
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: table !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: #333 !important;
+        }
+        
+        .leaderboard-table th {
+            background: linear-gradient(135deg, #32cd32, #28a745);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+        }
+        
+        .leaderboard-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: table-cell !important;
+            visibility: visible !important;
+            color: #333 !important;
+        }
+        
+        .leaderboard-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .leaderboard-table tr:hover {
+            background-color: #e9ecef;
+        }
+        
+        .leaderboard-table tr {
+            color: #333 !important;
+        }
+        
+        .leaderboard-table tr * {
+            color: inherit !important;
+        }
+        
+        .rank-1 { color: #b8860b !important; font-weight: 700; }
+        .rank-2 { color: #708090 !important; font-weight: 700; }
+        .rank-3 { color: #cd7f32 !important; font-weight: 700; }
+        
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1a2a3a, #2d4a6b);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            border: 2px solid #32cd32;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(50, 205, 50, 0.3);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .no-scores {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .leaderboard-fallback {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: white;
+        }
+        
+        .leaderboard-entry:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .leaderboard-entry:hover {
+            background-color: #e9ecef;
+        }
+        
+        .leaderboard-entry .rank {
+            font-weight: 700;
+            min-width: 50px;
+        }
+        
+        .leaderboard-entry .name {
+            flex: 1;
+            margin: 0 20px;
+        }
+        
+        .leaderboard-entry .game {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .leaderboard-entry .score {
+            font-weight: 700;
+            min-width: 80px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="leaderboard-container">
+            <a href="index.html" class="back-button">← Back to Games</a>
+            
+            <div class="leaderboard-header">
+                <h1>🏆 Leaderboard</h1>
+                <p>See how you rank against other players!</p>
+            </div>
+            
+            <div class="leaderboard-tabs">
+                <button class="tab-button active" data-game="all">All Games</button>
+                <button class="tab-button" data-game="fair-hunt">Fair Hunt</button>
+                <button class="tab-button" data-game="fair-puzzle">Fair Puzzle</button>
+            </div>
+            
+            <div id="leaderboardContent">
+                <div class="loading">Loading leaderboard...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        console.log('Leaderboard.html loaded');
+        // Wait for Supabase to be available
+        function waitForSupabase() {
+            if (typeof supabase !== 'undefined') {
+                console.log('Supabase loaded, now loading config...');
+                loadSupabaseConfig();
+            } else {
+                console.log('Waiting for Supabase...');
+                setTimeout(waitForSupabase, 100);
+            }
+        }
+        
+        function loadSupabaseConfig() {
+            const script = document.createElement('script');
+            script.src = 'supabase-config.js';
+            script.onload = function() {
+                console.log('Supabase config loaded');
+                // Test connection first
+                if (window.testConnection) {
+                    window.testConnection().then(() => {
+                        setupTabs();
+                        loadLeaderboard();
+                    });
+                } else {
+                    setupTabs();
+                    loadLeaderboard();
+                }
+            };
+            document.head.appendChild(script);
+        }
+        
+        let currentGame = 'all';
+        let leaderboardData = [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, waiting for Supabase...');
+            waitForSupabase();
+        });
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab-button');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Update current game and reload
+                    currentGame = this.dataset.game;
+                    loadLeaderboard();
+                });
+            });
+        }
+        
+        async function loadLeaderboard() {
+            const contentDiv = document.getElementById('leaderboardContent');
+            contentDiv.innerHTML = '<div class="loading">Loading leaderboard...</div>';
+            
+            try {
+                console.log('Loading leaderboard for game:', currentGame);
+                console.log('LeaderboardDB available:', typeof LeaderboardDB);
+                
+                let result;
+                if (currentGame === 'all') {
+                    console.log('Fetching all leaderboards...');
+                    result = await LeaderboardDB.getAllLeaderboards();
+                } else {
+                    console.log('Fetching leaderboard for:', currentGame);
+                    result = await LeaderboardDB.getLeaderboard(currentGame, 50);
+                }
+                
+                console.log('Result:', result);
+                
+                if (result.success) {
+                    leaderboardData = result.data;
+                    console.log('Leaderboard data:', leaderboardData);
+                    displayLeaderboard(leaderboardData);
+                } else {
+                    console.error('Leaderboard error:', result.error);
+                    contentDiv.innerHTML = `<div class="no-scores">Error loading leaderboard: ${result.error}</div>`;
+                }
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+                contentDiv.innerHTML = '<div class="no-scores">Error loading leaderboard. Please try again.</div>';
+            }
+        }
+        
+        function displayLeaderboard(data) {
+            const contentDiv = document.getElementById('leaderboardContent');
+            
+            console.log('Display function called with data:', data);
+            console.log('Data type:', typeof data);
+            console.log('Data length:', data ? data.length : 'undefined');
+            
+            if (!data || data.length === 0) {
+                console.log('No data to display');
+                contentDiv.innerHTML = '<div class="no-scores">No scores yet. Be the first to play!</div>';
+                return;
+            }
+            
+            // Sort by score (highest first)
+            const sortedData = data.sort((a, b) => b.score - a.score);
+            
+            console.log('Sorted data:', sortedData);
+            
+            let html = `
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Game</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            sortedData.forEach((entry, index) => {
+                const rank = index + 1;
+                const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                const gameDisplay = entry.game === 'fair-hunt' ? 'Fair Hunt' : 'Fair Puzzle';
+                
+                html += `
+                    <tr>
+                        <td class="${rankClass}">${rank}</td>
+                        <td>${entry.name}</td>
+                        <td>${gameDisplay}</td>
+                        <td>${entry.score.toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            console.log('Generated HTML:', html);
+            contentDiv.innerHTML = html;
+            
+            // Debug: Check what was actually rendered
+            console.log('Content div innerHTML after setting:', contentDiv.innerHTML);
+            console.log('Content div children count:', contentDiv.children.length);
+            if (contentDiv.children.length > 0) {
+                console.log('First child:', contentDiv.children[0]);
+                console.log('First child tagName:', contentDiv.children[0].tagName);
+                console.log('First child className:', contentDiv.children[0].className);
+            }
+            
+            // Fallback: If table doesn't show, try simple div-based display
+            setTimeout(() => {
+                if (contentDiv.children.length === 0 || contentDiv.children[0].tagName !== 'TABLE') {
+                    console.log('Table not rendered, using fallback display');
+                    let fallbackHtml = `
+                        <div class="leaderboard-fallback">
+                            <div class="leaderboard-entry" style="background: linear-gradient(135deg, #32cd32, #28a745); color: white; font-weight: 700;">
+                                <span class="rank">Rank</span>
+                                <span class="name">Name</span>
+                                <span class="game">Game</span>
+                                <span class="score">Score</span>
+                            </div>
+                        `;
+                    sortedData.forEach((entry, index) => {
+                        const rank = index + 1;
+                        const gameDisplay = entry.game === 'fair-hunt' ? 'Fair Hunt' : 'Fair Puzzle';
+                        fallbackHtml += `
+                            <div class="leaderboard-entry">
+                                <span class="rank">${rank}</span>
+                                <span class="name">${entry.name}</span>
+                                <span class="game">${gameDisplay}</span>
+                                <span class="score">${entry.score.toLocaleString()}</span>
+                            </div>
+                        `;
+                    });
+                    fallbackHtml += '</div>';
+                    contentDiv.innerHTML = fallbackHtml;
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>

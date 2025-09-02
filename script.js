@@ -215,7 +215,7 @@ function navigateToGame(gameId) {
     
     // Navigate to the actual game pages
     if (gameId === 'fair-hunt') {
-        window.location.href = 'wordsearch/ws/index.html';
+        window.location.href = 'wordsearch/index.html';
     } else if (gameId === 'fair-puzzle') {
         window.location.href = 'fairpuzzle/index.html';
     } else {

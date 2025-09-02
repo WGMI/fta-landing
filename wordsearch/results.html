@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fair Hunt - Results</title>
+  <link rel="stylesheet" href="ws.css?v=6" />
+  <style>
+    /* Results page specific styles */
+    .results-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+      padding: 20px;
+    }
+
+    /* FTA 20 Logo */
+    .fta-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      margin-top: 50px;
+    }
+
+    .fta-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .fairtrade-emblem {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .fairtrade-symbol {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #000 50%, #fff 50%);
+      position: relative;
+    }
+
+    .fairtrade-symbol::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000;
+    }
+
+    .fairtrade-symbol::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      margin-top: -10px;
+    }
+
+    /* Game title */
+    .game-title {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .title-fair {
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      margin: 0;
+      position: relative;
+    }
+
+    .title-hunt {
+      font-size: 42px;
+      font-weight: bold;
+      color: white;
+      margin: 0;
+    }
+
+    /* Decorative stars around FAIR */
+    .title-fair::before,
+    .title-fair::after {
+      content: '★';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #4ecdc4;
+    }
+
+    .title-fair::before {
+      left: -30px;
+    }
+
+    .title-fair::after {
+      right: -30px;
+    }
+
+    /* Green underline */
+    .green-underline {
+      width: 200px;
+      height: 8px;
+      background: #32ff7e;
+      border-radius: 4px;
+      margin: 10px 0 20px 0;
+      transform: skew(-10deg);
+    }
+
+    /* Timer display */
+    .timer-display {
+      background: #32ff7e;
+      color: #8B4513;
+      border: 2px solid #264682;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 30px;
+      transform: skew(-15deg);
+    }
+
+    /* Score circle */
+    .score-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 20px 0;
+    }
+
+    .score-circle {
+      width: 100%;
+      height: 100%;
+      background: url('../images/results@300x.png') center no-repeat;
+      background-size: contain;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-text {
+      color: #8B4513;
+      font-weight: bold;
+      font-size: 18px;
+      margin: 0;
+      text-align: center;
+    }
+
+    .score-number {
+      color: #8B4513;
+      font-weight: bold;
+      font-size: 48px;
+      margin: 5px 0 0 0;
+    }
+
+    /* Congratulatory message */
+    .congrats-message {
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      text-align: center;
+      margin: 20px 0 40px 0;
+    }
+
+    /* Bottom icons */
+    .bottom-icons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-top: auto;
+      padding: 20px;
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      background: #32ff7e;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #8B4513;
+      border: 2px solid #32ff7e;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .score-container {
+        width: 250px;
+        height: 250px;
+      }
+      
+      .title-fair {
+        font-size: 28px;
+      }
+      
+      .title-hunt {
+        font-size: 32px;
+      }
+      
+      .bottom-icons {
+        gap: 15px;
+      }
+      
+      .icon {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="results-screen">
+      <!-- FTA 20 Logo -->
+      <div class="fta-logo">
+        <span class="fta-text">FTA 20</span>
+        <div class="fairtrade-emblem">
+          <div class="fairtrade-symbol"></div>
+        </div>
+      </div>
+      
+      <!-- Game title -->
+      <div class="game-title">
+        <h1 class="title-fair">FAIR</h1>
+        <h1 class="title-hunt">HUNT</h1>
+      </div>
+      
+      <!-- Green underline -->
+      <div class="green-underline"></div>
+      
+      <!-- Timer display -->
+      <div class="timer-display">
+        00:00
+      </div>
+      
+      <!-- Score circle -->
+      <div class="score-container">
+        <div class="score-circle">
+          <p class="score-text">YOUR SCORE</p>
+          <p class="score-number">100</p>
+        </div>
+      </div>
+      
+      <!-- Congratulatory message -->
+      <div class="congrats-message">
+        Your basket is truly fair!
+      </div>
+      
+      <!-- Bottom icons -->
+      <div class="bottom-icons">
+        <div class="icon">👊</div>
+        <div class="icon">🍌</div>
+        <div class="icon">🦜</div>
+        <div class="icon">☕</div>
+        <div class="icon">✅</div>
+        <div class="icon">🌱</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add any interactive functionality here
+    document.addEventListener('DOMContentLoaded', function() {
+      // You can add animations or other interactive elements
+      console.log('Results page loaded');
+    });
+  </script>
+</body>
+</html>

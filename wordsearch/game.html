@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wordsearch – 3-Minute Challenge</title>
+  <link rel="stylesheet" href="ws.css?v=6" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="stats">
+        <span class="badge" id="progress" style="display: none;">0 / 0</span>
+        <button class="btn" id="restartBtn" title="New Puzzle" style="display: none;">🔄 Restart</button>
+        <a href="../leaderboard.html" class="btn leaderboard-link">🏆 Leaderboard</a>
+      </div>
+    </header>
+
+    <section class="game">
+        <div class="timer-bar">
+            <span class="badge" id="timer">03:00</span>
+            <span class="badge" id="score-display" style="display: none;">Score: 0</span>
+        </div>
+      <div class="board">
+        <div id="grid" aria-label="Wordsearch grid"></div>
+      </div>
+
+      <div class="words" aria-live="polite">
+        <div id="wordList" class="list"></div>
+        <p class="small">Tip: Select horizontally, vertically, or diagonally by tapping or dragging.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <h3 id="overlayTitle">Time’s up!</h3>
+      <p id="overlayMsg">Great effort. Want to try a fresh grid?</p>
+      <div class="actions">
+        <button class="btn" id="playAgain">▶️ Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase-config.js"></script>
+  <script src="ws.js"></script>
+</body>
+</html>
