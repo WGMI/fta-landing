@@ -1,7 +1,7 @@
 :root {
   --board-size: 400px;   /* reduced from 460px to fit better in background */
   --gap: 4px;            /* space between tiles */
-  --grid: 4;             /* NxN grid (edit via JS too) */
+  --grid: 4;             /* Fixed to 4x4 grid */
 }
 
 body {
@@ -27,12 +27,12 @@ body {
 .toolbar {
   width: 100%;
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 16px;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   background: rgba(15, 23, 42, 0.8);
-  padding: 12px;
+  padding: 12px 16px;
   border-radius: 12px;
   backdrop-filter: blur(8px);
 }
@@ -402,11 +402,7 @@ dialog::backdrop { background: rgba(0,0,0,0.8); }
   }
 }
 
-.grid-select {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
+
 
 .credit {
   font-size: 12px;
@@ -424,13 +420,23 @@ dialog::backdrop { background: rgba(0,0,0,0.8); }
   }
   
   .toolbar {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 12px;
+    padding: 10px 12px;
   }
   
   .stats {
-    flex-direction: column;
     gap: 8px;
+    font-size: 12px;
+  }
+  
+  .stats span {
+    padding: 3px 6px;
+  }
+  
+  .leaderboard-link {
+    padding: 3px 6px;
+    font-size: 12px;
   }
   
   .facts-section {
@@ -450,5 +456,18 @@ dialog::backdrop { background: rgba(0,0,0,0.8); }
   
   body {
     padding: 16px;
+  }
+  
+  .toolbar {
+    padding: 8px 10px;
+  }
+  
+  .stats {
+    gap: 6px;
+  }
+  
+  .stats span {
+    padding: 2px 4px;
+    font-size: 11px;
   }
 }

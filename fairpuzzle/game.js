@@ -99,9 +99,7 @@
   const boardEl = document.getElementById('board');
   const msgEl = document.getElementById('msg');
   const finalStatsEl = document.getElementById('finalStats');
-  const newBtn = document.getElementById('newBtn');
   const eyeBtn = document.getElementById('eyeBtn');
-  const sizeSel = document.getElementById('sizeSel');
   const movesEl = document.getElementById('moves');
   const timeEl = document.getElementById('time');
   const scoreEl = document.getElementById('score');
@@ -117,7 +115,7 @@
   const confettiContainer = document.getElementById('confettiContainer');
   const newGameBtn = document.getElementById('newGameBtn');
 
-  let GRID = parseInt(sizeSel.value, 10);
+  let GRID = 4; // Fixed to 4x4 grid
   let BOARD_SIZE = 460; // px (keep in sync with CSS --board-size if you change it)
   let imageURL = pickRandom(IMAGES);
 
@@ -448,11 +446,6 @@
   }
 
   // Controls
-  newBtn.addEventListener('click', () => {
-    imageURL = pickRandom(IMAGES);
-    buildBoard();
-  });
-
   eyeBtn.addEventListener('click', () => {
     if (typeof guideDlg.showModal === 'function') {
       guideDlg.showModal();
@@ -464,12 +457,6 @@
   closeResultsDlg.addEventListener('click', () => resultsDlg.close());
   newGameBtn.addEventListener('click', () => {
     window.location.href = '../index.html';
-  });
-
-  sizeSel.addEventListener('change', () => {
-    const g = parseInt(sizeSel.value, 10);
-    setGridCSS(g);
-    buildBoard();
   });
 
   // Initial
