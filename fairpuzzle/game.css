@@ -1,7 +1,7 @@
 :root {
   --board-size: 400px;   /* reduced from 460px to fit better in background */
   --gap: 4px;            /* space between tiles */
-  --grid: 4;             /* Fixed to 4x4 grid */
+  --grid: 3;             /* Fixed to 3x3 grid */
 }
 
 body {
@@ -125,16 +125,7 @@ button:hover {
   box-shadow: 0 6px 18px rgba(0,0,0,0.3);
 }
 
-.tile.bad {
-  animation: shake 160ms linear 2;
-}
-@keyframes shake {
-  0%   { transform: translateX(0); }
-  25%  { transform: translateX(-3px); }
-  50%  { transform: translateX(3px); }
-  75%  { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
-}
+
 
 .message {
   position: absolute;

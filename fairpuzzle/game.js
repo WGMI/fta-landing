@@ -115,7 +115,7 @@
   const confettiContainer = document.getElementById('confettiContainer');
   const newGameBtn = document.getElementById('newGameBtn');
 
-  let GRID = 4; // Fixed to 4x4 grid
+  let GRID = 3; // Fixed to 3x3 grid
   let BOARD_SIZE = 460; // px (keep in sync with CSS --board-size if you change it)
   let imageURL = pickRandom(IMAGES);
 
@@ -142,7 +142,7 @@
 
   function getMoveCost(gridSize) {
     switch(gridSize) {
-      case 3: return 4;
+      case 3: return 5;  // Higher cost for 3x3 since it's easier
       case 4: return 3;
       case 5: return 2;
       case 6: return 1;
@@ -282,18 +282,7 @@
       return;
     }
 
-    // Only allow swap if adjacent (Manhattan distance = 1)
-    if (!areAdjacent(firstSel.idx, pos)) {
-      // little feedback
-      el.classList.add('bad');
-      setTimeout(() => el.classList.remove('bad'), 220);
-      // Switch selection to this tile for faster play
-      firstSel.el.classList.remove('selected');
-      firstSel = { idx: pos, el };
-      el.classList.add('selected');
-      return;
-    }
-
+    // Allow swap between any two tiles (not just adjacent ones)
     doSwap(firstSel.idx, pos);
     firstSel.el.classList.remove('selected');
     firstSel = null;
@@ -314,12 +303,7 @@
     syncDOMFromTiles();
   }
 
-  function areAdjacent(p, q) {
-    const pr = Math.floor(p / GRID), pc = p % GRID;
-    const qr = Math.floor(q / GRID), qc = q % GRID;
-    const manhattan = Math.abs(pr - qr) + Math.abs(pc - qc);
-    return manhattan === 1;
-  }
+
 
   function arraysEqual(a, b) {
     if (a.length !== b.length) return false;
